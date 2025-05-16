@@ -1,0 +1,10 @@
+#!ipxe
+# Dynamically inject NGINX's LAN IP via SSI
+set proxy_ip <!--#echo var="host" -->
+
+set base-url http://${proxy_ip}/fcos/prod/streams/stable/builds/latest/x86_64
+
+kernel ${base-url}/fedora-coreos-*.kernel console=ttyS0 console=tty0 ignition.platform.id=metal ignition.firstboot ignition.config.url=http://${proxy_ip}/ignition/host1.ign
+initrd ${base-url}/fedora-coreos-*.initrd
+boot
+
